@@ -45,28 +45,32 @@ void fcfs(proc* procs, int n) {
     int wt[n], tat[n], ct[n], rt[n], totwt = 0, tottat = 0;
 
     wt[0] = 0;
-    rt[0] = 0;
-
-    for (int i = 1; i < n; i++) {
-        wt[i] = procs[i-1].bt + wt[i-1];
-        rt[i] = wt[i] - procs[i].at; // Calculate response time as waiting time - arrival time
-        totwt += wt[i];
-    }
-
+    tat[0] = 0;
+	int time=0;
     for (int i = 0; i < n; i++) {
-        tat[i] = procs[i].bt + wt[i];
-        ct[i] = tat[i] + procs[i].at;
-        tottat += tat[i];
+    	if( i==0){
+    		wt[i]=0;
+    	}
+    	else{
+    		wt[i]=time-procs[i].at;
+    	}
+    	time+=procs[i].bt;
+    	tat[i]=procs[i].bt+wt[i];
+    	ct[i] = tat[i] + procs[i].at;
+    	tottat+=tat[i];
+    	totwt+=wt[i];
+    	
     }
 
+    
     printf("Processes\tArrival Time\tBurst Time\tWaiting time\tTurnaround Time\tCompletion Time\tResponse Time\n");
 
     for (int i = 0; i < n; i++) {
         printf("%d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", procs[i].pid, procs[i].at, procs[i].bt, wt[i], tat[i], ct[i], rt[i]);
     }
 
-    printf("Average waiting time = %f", (float)totwt / (float)n);
-    printf("\nAverage turn around time = %f \n", (float)tottat / (float)n);
+    printf("Average waiting time = %f", totwt / (float)n);
+    printf("\nAverage turn around time = %f \n", tottat /(float) n);
 }
 
 void main(){
