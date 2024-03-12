@@ -47,16 +47,20 @@ void fcfs(proc* procs, int n) {
     wt[0] = 0;
     tat[0] = 0;
 	int time=0;
+	rt[0]=0;
     for (int i = 0; i < n; i++) {
     	if( i==0){
     		wt[i]=0;
+    		rt[i]=0;
     	}
     	else{
     		wt[i]=time-procs[i].at;
+    		rt[i]=wt[i]-procs[i].at;
     	}
     	time+=procs[i].bt;
     	tat[i]=procs[i].bt+wt[i];
     	ct[i] = tat[i] + procs[i].at;
+    	printf("\n %d %d \n",time,ct[i]);
     	tottat+=tat[i];
     	totwt+=wt[i];
     	
