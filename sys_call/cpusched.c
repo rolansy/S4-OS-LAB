@@ -172,7 +172,7 @@ void priority(proc* procs, int n) {
         }
     }
 
-    int time = 0;
+    int time = procs[0].at;
     for (int i = 0; i < n; i++) {
         if (time < procs[i].at) {
             time = procs[i].at;
@@ -221,6 +221,7 @@ void roundRobin(proc* procs, int n, int quantum) {
                 if (remBt[i] == 0) {
                     completed++;
                     procs[i].tat = time - procs[i].at;
+                    procs[i].ct = procs[i].tat + procs[i].at;
                     procs[i].wt = procs[i].tat - procs[i].bt;
                 }
             }
