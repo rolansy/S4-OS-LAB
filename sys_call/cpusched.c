@@ -108,17 +108,17 @@ void sjf(proc* procs, int n) {
     }
 
 
-    int currentTime = 0;
+    int time = 0;
     for (int i = 0; i < n; i++) {
-        if (currentTime < procs[i].at) {
-            currentTime = procs[i].at;
+        if (time < procs[i].at) {
+            time = procs[i].at;
         }
 
-        procs[i].rt = currentTime - procs[i].at;
+        procs[i].rt = time - procs[i].at;
         procs[i].tat = procs[i].rt + procs[i].bt;
         procs[i].wt = procs[i].tat - procs[i].bt;
 
-        currentTime += procs[i].bt;
+        time += procs[i].bt;
     }
 
     printf("\nSJF Scheduling:\n");
@@ -127,12 +127,12 @@ void sjf(proc* procs, int n) {
 
 
 void priority(proc* procs, int n) {
-    // Sort procs based on prio
+
     proc temp;
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i - 1; j++) {
             if (procs[j].prio > procs[j + 1].prio) {
-                // Swap procs
+
                 temp = procs[j];
                 procs[j] = procs[j + 1];
                 procs[j + 1] = temp;
@@ -140,18 +140,17 @@ void priority(proc* procs, int n) {
         }
     }
 
-    // Calculate turnaround time, waiting time, and response time
-    int currentTime = 0;
+    int time = 0;
     for (int i = 0; i < n; i++) {
-        if (currentTime < procs[i].at) {
-            currentTime = procs[i].at;
+        if (time < procs[i].at) {
+            time = procs[i].at;
         }
 
-        procs[i].rt = currentTime - procs[i].at;
+        procs[i].rt = time - procs[i].at;
         procs[i].tat = procs[i].rt + procs[i].bt;
         procs[i].wt = procs[i].tat - procs[i].bt;
 
-        currentTime += procs[i].bt;
+        time += procs[i].bt;
     }
 
     printf("\nNon-Preemptive prio Scheduling:\n");
@@ -159,12 +158,51 @@ void priority(proc* procs, int n) {
 }
 
 
+void roundRobin(proc* procs, int n, int quantum) {
+    int remBt[n]; //remainingbursttime
+    for (int i = 0; i < n; i++) {
+        remBt[i] = procs[i].bt;
+    }
+
+    int time = 0;
+    int completed = 0;
+
+    while (completed < n) {
+        for (int i = 0; i < n; i++) {
+            if (remBt[i] > 0) {
+                int executeTime;
+                if (remBt[i] > quantum) {
+                    executeTime = quantum;
+                } else {
+                    executeTime = remBt[i];
+                }
+                if (time<procs[i].at){
+                    procs[i].rt=0;
+                }
+                else{
+                    procs[i].rt=time-procs[i].at;
+                }
+                time += executeTime;
+                remBt[i] -= executeTime;
+
+                if (remBt[i] == 0) {
+                    completed++;
+                    procs[i].tat = time - procs[i].at;
+                    procs[i].wt = procs[i].tat - procs[i].bt;
+                }
+            }
+        }
+    }
+
+    printf("\nRound Robin Scheduling (Quantum = %d):\n", quantum);
+    disptable(procs, n);
+}
 
 
 void main(){
-	int c,n;
+	int c,n,quantum;
 	while (c!=10){
-		printf("1. Input Process\n2. display\n3. Sort procs\n4. FCFS\n5. SJF\n6. Priority Scheduling\n10.Exit\n");
+		printf("1. Input Process\n2. display\n3. Sort procs\n4. FCFS\n5. SJF\n6. Priority Scheduling\n7. Round Robin\n10.Exit\n");
 		printf("Enter Choice : ");
 		scanf("%d",&c);
 		switch(c){
@@ -194,6 +232,13 @@ void main(){
 		        }
 		        priority(procs, n);
 		        break;
+			case 7:
+				printf("Enter time quantum for Round Robin: ");
+		        scanf("%d", &quantum);
+		        roundRobin(procs, n, quantum);
+		        break;
+		    default:
+		        printf("Invalid choice\n");
 				
 
 				
