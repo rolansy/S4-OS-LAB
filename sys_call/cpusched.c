@@ -126,13 +126,45 @@ void sjf(proc* procs, int n) {
 }
 
 
+void priority(proc* procs, int n) {
+    // Sort procs based on prio
+    proc temp;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (procs[j].prio > procs[j + 1].prio) {
+                // Swap procs
+                temp = procs[j];
+                procs[j] = procs[j + 1];
+                procs[j + 1] = temp;
+            }
+        }
+    }
+
+    // Calculate turnaround time, waiting time, and response time
+    int currentTime = 0;
+    for (int i = 0; i < n; i++) {
+        if (currentTime < procs[i].at) {
+            currentTime = procs[i].at;
+        }
+
+        procs[i].rt = currentTime - procs[i].at;
+        procs[i].tat = procs[i].rt + procs[i].bt;
+        procs[i].wt = procs[i].tat - procs[i].bt;
+
+        currentTime += procs[i].bt;
+    }
+
+    printf("\nNon-Preemptive prio Scheduling:\n");
+    disptable(procs, n);
+}
+
 
 
 
 void main(){
 	int c,n;
 	while (c!=10){
-		printf("1. Input Process\n2. display\n3. Sort procs\n4. FCFS\n5.SJF\n10.Exit\n");
+		printf("1. Input Process\n2. display\n3. Sort procs\n4. FCFS\n5. SJF\n6. Priority Scheduling\n10.Exit\n");
 		printf("Enter Choice : ");
 		scanf("%d",&c);
 		switch(c){
@@ -154,6 +186,14 @@ void main(){
 			case 5:
 				sjf(procs,n);
 				break;
+			case 6:
+				printf("Enter prio for each process:\n");
+		        for (int i = 0; i < n; i++) {
+		            printf("prio for process %d: ", i + 1);
+		            scanf("%d", &procs[i].prio);
+		        }
+		        priority(procs, n);
+		        break;
 				
 
 				
