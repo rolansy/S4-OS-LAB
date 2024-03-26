@@ -27,6 +27,36 @@ void disptable(proc* procs,int n){
 
 }
 
+void dispgantt(proc* procs, int n) {
+    int i, j;
+    printf(" ");
+    for(i=0; i<n; i++) {
+        for(j=0; j<procs[i].bt; j++) printf("--");
+        printf(" ");
+    }
+    printf("\n|");
+    for(i=0; i<n; i++) {
+        for(j=0; j<procs[i].bt - 1; j++) printf(" ");
+        printf("P%d", procs[i].pid);
+        for(j=0; j<procs[i].bt - 1; j++) printf(" ");
+        printf("|");
+    }
+    printf("\n ");
+    for(i=0; i<n; i++) {
+        for(j=0; j<procs[i].bt; j++) printf("--");
+        printf(" ");
+    }
+    printf("\n");
+
+    printf("0");
+    for(i=0; i<n; i++) {
+        for(j=0; j<procs[i].bt; j++) printf("  ");
+        if(procs[i].tat > 9) printf("\b"); // backspace : remove 1 space
+        printf("%d", procs[i].tat + procs[i].at);
+    }
+    printf("\n");
+}
+
 proc* createproc(int n) {
     proc* proces = (proc*)malloc(n * sizeof(proc));
     for(int i = 0; i < n; i++){
@@ -89,6 +119,7 @@ void fcfs(proc* procs, int n) {
     }
 	printf("\nFCFS Schelduling\n");
 	disptable(procs, n);
+    dispgantt(procs,n);
     
     
 }
@@ -123,6 +154,7 @@ void sjf(proc* procs, int n) {
 
     printf("\nSJF Scheduling:\n");
     disptable(procs, n);
+    dispgantt(procs,n);
 }
 
 
@@ -155,6 +187,7 @@ void priority(proc* procs, int n) {
 
     printf("\nNon-Preemptive prio Scheduling:\n");
     disptable(procs, n);
+    dispgantt(procs,n);
 }
 
 
@@ -196,6 +229,7 @@ void roundRobin(proc* procs, int n, int quantum) {
 
     printf("\nRound Robin Scheduling (Quantum = %d):\n", quantum);
     disptable(procs, n);
+    dispgantt(procs,n);
 }
 
 
