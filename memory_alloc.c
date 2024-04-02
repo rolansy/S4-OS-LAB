@@ -17,16 +17,16 @@ void input_blocks(int n,int bs[]){
 }
 
 
-void first_fit(int ps[100],int bs[100],int m,int n){
+void first_fit(int ps[100],int ts[100],int m,int n){
 	int allocation[100];
 	for (int i=0;i<m;i++){
 		allocation[i]=-1;
 	}
 	for (int i=0;i<m;i++){
 		for (int j=0;j<n;j++){
-			if (bs[j]>=ps[i]){
+			if (ts[j]>=ps[i]){
 				allocation[i]=j;
-				bs[j]-=ps[i];
+				ts[j]-=ps[i];
 				break;
 			}
 		}
@@ -43,14 +43,84 @@ void first_fit(int ps[100],int bs[100],int m,int n){
 	}
 }
 
+void best_fit(int ps[100],int ts[100],int m,int n){
+	int allocation[100];
+	for (int i=0;i<m;i++){
+		allocation[i]=-1;
+	}
+	for (int i=0;i<m;i++){
+		int best=-1;
+		for (int j=0;j<n;j++){
+			if (ts[j]>=ps[i]){
+				if (best==-1){
+					best=j;
+				}
+				else if (ts[j]<ts[best]){
+					best=j;
+				}
+			}
+		}
+		if (best!=-1){
+			allocation[i]=best;
+			ts[best]-=ps[i];
+		}
+	}
+	printf("\nProcess No.\tProcess Size\tBlock No.\n");
+	for (int i=0;i<m;i++){
+		printf("%d\t\t%d\t\t",i+1,ps[i]);
+		if (allocation[i]!=-1){
+			printf("%d\n",allocation[i]+1);
+		}
+		else{
+			printf("Not Allocated\n");
+		}
+	}
+}
+
+void worst_fit(int ps[100],int ts[100],int m,int n){
+	int allocation[100];
+	for (int i=0;i<m;i++){
+		allocation[i]=-1;
+	}
+	for (int i=0;i<m;i++){
+		int worst=-1;
+		for (int j=0;j<n;j++){
+			if (ts[j]>=ps[i]){
+				if (worst==-1){
+					worst=j;
+				}
+				else if (ts[j]>ts[worst]){
+					worst=j;
+				}
+			}
+		}
+		if (worst!=-1){
+			allocation[i]=worst;
+			ts[worst]-=ps[i];
+		}
+	}
+	printf("\nProcess No.\tProcess Size\tBlock No.\n");
+	for (int i=0;i<m;i++){
+		printf("%d\t\t%d\t\t",i+1,ps[i]);
+		if (allocation[i]!=-1){
+			printf("%d\n",allocation[i]+1);
+		}
+		else{
+			printf("Not Allocated\n");
+		}
+	}
+}
+
+
 
 void main(){
 	int ch=0;	
 	int ps[100];
 	int bs[100];
 	int m,n;
+	int ts[100];
 	while (ch!=10){
-		printf("\n1.Input Processes\n2.Input Blocks\n3.First Fit\n10.Exit");
+		printf("\n1.Input Processes\n2.Input Blocks\n3.First Fit\n4.Best Fit\n5.Worst Fit\n10.Exit\n");
 		printf("Enter Choice : ");
 		scanf("%d",&ch);
 		switch (ch){
@@ -65,10 +135,23 @@ void main(){
 				input_blocks(n,bs);
 				break;
 			case 3: 
-				first_fit(ps,bs,m,n);
+				for (int i = 0; i < n; i++) {
+					ts[i] = bs[i];
+				}
+				first_fit(ps,ts,m,n);
 				break;
-
-
+			case 4:
+				for (int i = 0; i < n; i++) {
+					ts[i] = bs[i];
+				}
+				best_fit(ps,ts,m,n);
+				break;
+			case 5:
+				for (int i = 0; i < n; i++) {
+					ts[i] = bs[i];
+				}
+				worst_fit(ps,ts,m,n);
+				break;
 			case 10: 
 				break;
 			default: 
