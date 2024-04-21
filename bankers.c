@@ -42,11 +42,6 @@ void main(){
         printf("\n");
     }
 
-    for (i=0;i<n;i++){
-        finish[i]=0;
-    }
-
-
     for (k=0;k<n;k++){
         for (i=0;i<n;i++){
             if (finish[i]==0){
