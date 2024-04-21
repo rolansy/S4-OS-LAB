@@ -22,10 +22,8 @@ void main(){
     for(i=0;i<m;i++){
         scanf("%d",&avail[i]);  
     }
-    int finish[n],need[n][m],work[m],safe[n];
-    for (i=0;i<m;i++){
-        work[i]=avail[i];
-    }
+    int finish[n],need[n][m],safe[n];
+    
     for (i=0;i<n;i++){
         finish[i]=0;
     }
@@ -44,10 +42,6 @@ void main(){
         printf("\n");
     }
 
-    for (i=0;i<m;i++){
-        work[i]=avail[i];
-    }
-
     for (i=0;i<n;i++){
         finish[i]=0;
     }
@@ -58,7 +52,7 @@ void main(){
             if (finish[i]==0){
                 int flag=0;
                 for (j=0;j<m;j++){
-                    if (need[i][j]>work[j]){
+                    if (need[i][j]>avail[j]){
                         flag=1;
                         break;
                     }
@@ -66,7 +60,7 @@ void main(){
                 if (flag==0){
                     safe[ind++]=i;
                     for (y=0;y<m;y++){
-                        work[y]+=alloc[i][y];
+                        avail[y]+=alloc[i][y];
                     }
                     finish[i]=1;
                 }
