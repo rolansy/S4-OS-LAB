@@ -169,7 +169,7 @@ int main()
     int op = 0;
     while (op != 7)
     {
-        printf("\n\nEnter your option...\n1. FCFS\n2. SSTF\n3. SCAN\n4. CSCAN\n5. LOOK\n6. CLOOK\n7. Exit\n\n");
+        printf("\n\nEnter your option...\n1. FCFS\n2. SSTF\n3. SCAN\n4. Exit\n\n");
         scanf("%d", &op);
         switch (op)
         {
@@ -183,15 +183,6 @@ int main()
             scan(head, n, arr);
             break;
         case 4:
-            cscan(head, n, arr);
-            break;
-        case 5:
-            look(head, n, arr);
-            break;
-        case 6:
-            clook(head, n, arr);
-            break;
-        case 7:
             return 0;
             break;
         }
