@@ -264,23 +264,23 @@ int scan() {
 
     int head, n, tracks, Di;
 
+    printf("Enter the head position");
     scanf("%d", &head);
-
-    printf("0/1");
+    printf("Enter the direction (1 for left \n / 0 for right) : \n");
 
     scanf("%d", &Di);
 
-    printf("no of tracks");
+    printf("no of tracks : ");
 
     scanf("%d", &tracks);
 
-    printf("no of q element");
+    printf("no of q element : ");
 
     scanf("%d", &n);
 
     int Q[n];
 
-    printf("enter q");
+    printf("enter q : \n");
 
     for (int i = 0; i < n; i++) {
 
