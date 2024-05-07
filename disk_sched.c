@@ -294,6 +294,198 @@ int scan() {
 
 }
 
+void cscan(int head, int n, int arr[30])
+{
+    int dir = 1, siz, prev;
+    printf("Enter the Size:");
+    scanf("%d", &siz);
+    printf("\nEnter the previous position...\n");
+    scanf("%d", &prev);
+    if (prev > head)
+        dir = -1;
+
+    int ar1[30], ar2[30], n1 = 0, n2 = 0;
+    ar1[0] = siz - 1;
+    n1 = 1;
+    ar2[0] = 0;
+    n2 = 1;
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] > head)
+        {
+            ar1[n1++] = arr[i];
+        }
+        else
+        {
+            ar2[n2++] = arr[i];
+        }
+    }
+    isort(ar1, n1, -1);
+    isort(ar2, n2, 1);
+
+    int ans = 0;
+    printf("CSCAN ORDER IS:\n");
+    printf("%d ", head);
+    if (dir == -1)
+    {
+        n2--;
+        while (n2 >= 0)
+        {
+            ans += abs(head - ar2[n2]);
+            printf("%d ", ar2[n2]);
+            head = ar2[n2--];
+        }
+        for (int i = 0; i < n1; i++)
+        {
+            ans += abs(head - ar1[i]);
+            printf("%d ", ar1[i]);
+            head = ar1[i];
+        }
+    }
+    else
+    {
+        n1--;
+        while (n1 >= 0)
+        {
+            ans += abs(head - ar1[n1]);
+            printf("%d ", ar1[n1]);
+            head = ar1[n1--];
+        }
+        for (int i = 0; i < n2; i++)
+        {
+            ans += abs(head - ar2[i]);
+            printf("%d ", ar2[i]);
+            head = ar2[i];
+        }
+    }
+    printf("\n");
+    printf("Seek Time = %d\n\n", ans);
+}
+
+void look(int head, int n, int arr[30])
+{
+    int dir = 1, prev;
+    printf("\nEnter the previous position...\n");
+    scanf("%d", &prev);
+    if (prev > head)
+        dir = -1;
+
+    int ar1[30], ar2[30], n1 = 0, n2 = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] > head)
+        {
+            ar1[n1++] = arr[i];
+        }
+        else
+        {
+            ar2[n2++] = arr[i];
+        }
+    }
+    isort(ar1, n1, -1);
+    isort(ar2, n2, 1);
+
+    int ans = 0;
+    printf("LOOK ORDER IS:\n");
+    n2--;
+    n1--;
+    printf("%d ", head);
+    if (dir == -1)
+    {
+        while (n2 >= 0)
+        {
+            ans += abs(head - ar2[n2]);
+            printf("%d ", ar2[n2]);
+            head = ar2[n2--];
+        }
+        while (n1 >= 0)
+        {
+            ans += abs(head - ar1[n1]);
+            printf("%d ", ar1[n1]);
+            head = ar1[n1--];
+        }
+    }
+    else
+    {
+        while (n1 >= 0)
+        {
+            ans += abs(head - ar1[n1]);
+            printf("%d ", ar1[n1]);
+            head = ar1[n1--];
+        }
+        while (n2 >= 0)
+        {
+            ans += abs(head - ar2[n2]);
+            printf("%d ", ar2[n2]);
+            head = ar2[n2--];
+        }
+    }
+    printf("\n");
+    printf("Seek Time: %d\n\n", ans);
+}
+
+void clook(int head, int n, int arr[30])
+{
+    int dir = 1, prev;
+    printf("\nEnter the previous position...\n");
+    scanf("%d", &prev);
+    if (prev > head)
+        dir = -1;
+
+    int ar1[30], ar2[30], n1 = 0, n2 = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] > head)
+        {
+            ar1[n1++] = arr[i];
+        }
+        else
+        {
+            ar2[n2++] = arr[i];
+        }
+    }
+    isort(ar1, n1, -1);
+    isort(ar2, n2, 1);
+
+    int ans = 0;
+    printf("CLOOK ORDER IS:\n");
+    printf("%d ", head);
+    if (dir == -1)
+    {
+        n2--;
+        while (n2 >= 0)
+        {
+            ans += abs(head - ar2[n2]);
+            printf("%d ", ar2[n2]);
+            head = ar2[n2--];
+        }
+        for (int i = 0; i < n1; i++)
+        {
+            ans += abs(head - ar1[i]);
+            printf("%d ", ar1[i]);
+            head = ar1[i];
+        }
+    }
+    else
+    {
+        n1--;
+        while (n1 >= 0)
+        {
+            ans += abs(head - ar1[n1]);
+            printf("%d ", ar1[n1]);
+            head = ar1[n1--];
+        }
+        for (int i = 0; i < n2; i++)
+        {
+            ans += abs(head - ar2[i]);
+            printf("%d ", ar2[i]);
+            head = ar2[i];
+        }
+    }
+    printf("\n");
+    printf("Seek Time = %d\n\n", ans);
+}
+
 
 int main()
 {
@@ -325,6 +517,15 @@ int main()
             scan();
             break;
         case 4:
+            cscan(head, n, arr);
+            break;
+        case 5:
+            look(head, n, arr);
+            break;
+        case 6:
+            clook(head, n, arr);
+            break;
+        case 7:
             return 0;
             break;
         }
