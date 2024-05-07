@@ -46,6 +46,7 @@ void fCFS(int head, int n, int arr[30])
         printf("%d ", arr[i]);
     }
     printf("\nSeek Time = %d\n\n", time);
+    printf("\nAverage Seek Time = %d\n\n", time/n);
 }
 
 void sSTF(int head, int n, int arr[30])
@@ -73,8 +74,11 @@ void sSTF(int head, int n, int arr[30])
         processed[minIndex] = 1;
     }
     printf("\nSeek Time = %d\n", time);
+    printf("\nAverage Seek Time = %d\n", time/n);
 }
 
+
+/*
 void scan(int head, int n, int arr[30])
 {
     int dir = 1;
@@ -147,10 +151,148 @@ void scan(int head, int n, int arr[30])
         }
         printf("\n");
         printf("Seek Time = %d\n\n", ans-1);
+        printf("Average Seek Time = %d\n\n", (ans-1)/siz);
     }
+}
+*/
+
+void scanq(int head, int Q[], int n, int tracks, int Di) {
+
+    int scount = 0;
+
+    
+
+    // Sorting the queue of requests
+
+    for (int i = 0; i < n; i++) {
+
+        for (int j = 0; j < n - i - 1; j++) {
+
+            if (Q[j] > Q[j + 1]) {
+
+                int temp = Q[j];
+
+                Q[j] = Q[j + 1];
+
+                Q[j + 1] = temp;
+
+            }
+
+        }
+
+    }
+
+    
+
+    int index = 0;
+
+    for (int i = 0; i < n; i++) {
+
+        if (head < Q[i]) {
+
+            index = i;
+
+            break;
+
+        }
+
+    }
+
+    
+
+    if (Di == 1) {
+
+        for (int i = index; i < n; i++) {
+
+            scount += abs(head - Q[i]);
+
+            head = Q[i];
+
+        }
+
+        // Edge case handling: when the head is at the end of tracks
+
+        if (index != 0)
+
+            scount += abs(tracks - Q[n - 1] - 1);
+
+        head = tracks - 1;
+
+        for (int i = index - 1; i >= 0; i--) {
+
+            scount += abs(head - Q[i]);
+
+            head = Q[i];
+
+        }
+
+    } else {
+
+        for (int i = index - 1; i >= 0; i--) {
+
+            scount += abs(head - Q[i]);
+
+            head = Q[i];
+
+        }
+
+        // Edge case handling: when the head is at the beginning of tracks
+
+        if (index != n)
+
+            scount += abs(Q[0] - 0);
+
+        head = 0;
+
+        for (int i = index; i < n; i++) {
+
+            scount += abs(head - Q[i]);
+
+            head = Q[i];
+
+        }
+
+    }
+
+    printf("%d", scount);
+
 }
 
 
+
+int scan() {
+
+    int head, n, tracks, Di;
+
+    scanf("%d", &head);
+
+    printf("0/1");
+
+    scanf("%d", &Di);
+
+    printf("no of tracks");
+
+    scanf("%d", &tracks);
+
+    printf("no of q element");
+
+    scanf("%d", &n);
+
+    int Q[n];
+
+    printf("enter q");
+
+    for (int i = 0; i < n; i++) {
+
+        scanf("%d", &Q[i]);
+
+    }
+
+    scanq(head, Q, n, tracks, Di);
+
+    return 0;
+
+}
 
 
 int main()
@@ -180,7 +322,7 @@ int main()
             sSTF(head, n, arr);
             break;
         case 3:
-            scan(head, n, arr);
+            scan();
             break;
         case 4:
             return 0;
