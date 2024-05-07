@@ -155,7 +155,7 @@ void scan(int head, int n, int arr[30])
     }
 }
 */
-
+/*
 void scanq(int head, int Q[], int n, int tracks, int Di) {
 
     int scount = 0;
@@ -258,38 +258,39 @@ void scanq(int head, int Q[], int n, int tracks, int Di) {
 
 }
 
-
+*/
 
 int scan() {
 
-    int head, n, tracks, Di;
-
-    printf("Enter the head position");
-    scanf("%d", &head);
-    printf("Enter the direction (1 for left \n / 0 for right) : \n");
-
-    scanf("%d", &Di);
-
-    printf("no of tracks : ");
-
-    scanf("%d", &tracks);
-
-    printf("no of q element : ");
-
-    scanf("%d", &n);
-
-    int Q[n];
-
-    printf("enter q : \n");
-
-    for (int i = 0; i < n; i++) {
-
-        scanf("%d", &Q[i]);
-
+    int i,init,np,dir,temp,size,totalDisk,req[50];
+    printf("Enter the number of process : ");
+    scanf("%d",&np);
+    printf("Enter the request sequence : ");
+    for(i=0;i<np;i++){
+        scanf("%d",&req[i]);
     }
-
-    scanq(head, Q, n, tracks, Di);
-
+    printf("Enter disk size : ");
+    scanf("%d",&size);
+    printf("Enter the initial disk position : ");
+    scanf("%d",&init);
+    printf("Enter direction of head (0 for left to right any other number for right to left) : ");
+    scanf("%d",&dir);
+    for(i=0;i<np;i++){
+        for(int j=0;j<np-i-1;j++){
+            if(req[j]>req[j+1]){
+                temp=req[j];
+                req[j]=req[j+1];
+                req[j+1]=temp;
+            }
+        }
+    }
+    if(!dir){
+        totalDisk=(size-init)+(size-req[0]);
+    }
+    else{
+        totalDisk=(init+req[np-1]);
+    }
+    printf("The total disk movement : %d\n",totalDisk);
     return 0;
 
 }
@@ -503,7 +504,7 @@ int main()
     int op = 0;
     while (op != 7)
     {
-        printf("\n\nEnter your option...\n1. FCFS\n2. SSTF\n3. SCAN\n4. Exit\n\n");
+        printf("\n\nEnter your option...\n1. FCFS\n2. SSTF\n3. SCAN\n4. CSCAN\n5. LOOK\n6. CLOOK\n7. Exit\n\n");
         scanf("%d", &op);
         switch (op)
         {
